@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Making ethanol on an industrial scale</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#EAF4F5;--panel:#FFFFFF;--ink:#14323B;--soft:#4B6870;--line:#C9DDE0;--bench:#A9C3C8;
+--honey:#E9A12E;--yeast:#A9703A;--co2:#2C9BD6;--lime:#1FA892;--eth:#7656E6;--hot:#E04F45;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:light}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0E2127;--panel:#16323A;--ink:#E7F3F4;--soft:#9DBABF;--line:#2A4A53;--bench:#3C6670;--honey:#F2B245;--yeast:#C28650;--co2:#52B7EE;--lime:#38C9B2;--eth:#9E86F5;--hot:#F26B60;color-scheme:dark}}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.55 Nunito,"Trebuchet MS",system-ui,sans-serif}
+.wrap{max-width:1040px;margin:0 auto;padding:28px 18px 60px}
+h1,h2,h3{font-family:Fredoka,"Trebuchet MS",system-ui,sans-serif;font-weight:600;line-height:1.15;margin:0}
+h1{font-size:clamp(28px,5vw,44px)}
+h2{font-size:clamp(23px,3.4vw,31px);margin:46px 0 6px}
+h3{font-size:19px;margin-bottom:6px}
+p{margin:0 0 10px}
+.lead{max-width:62ch;color:var(--soft);margin-top:10px}
+.chip{display:inline-block;padding:5px 13px;border-radius:99px;font-weight:700;color:#fff}
+.chip.g{background:var(--honey);color:#2b1c00}.chip.e{background:var(--eth)}.chip.c{background:var(--co2);color:#00243a}.chip.l{background:var(--lime);color:#06241f}
+.routes{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.routes button{font-size:16px;padding:10px 16px}
+.stage{display:grid;grid-template-columns:1.25fr 1fr;gap:20px;margin-top:14px;background:var(--panel);border:2px solid var(--line);border-radius:22px;padding:18px}
+.stage svg{width:100%;height:auto;display:block;background:var(--bg);border-radius:16px}
+.cap h3{font-size:24px}
+.cap .k{font-weight:700;color:var(--lime)}
+.cap .w .k{color:var(--eth)}
+.ctl{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+button{font:600 15px Nunito,system-ui,sans-serif;color:var(--ink);background:var(--bg);border:2px solid var(--line);border-radius:12px;padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--lime)}button:focus-visible{outline:3px solid var(--co2);outline-offset:2px}
+button.on{background:var(--lime);border-color:var(--lime);color:#06241f}
+.dots{display:flex;gap:6px;margin-top:12px}
+.dots button{width:38px;height:38px;padding:0;border-radius:50%}
+.board{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:18px}
+.card{background:var(--panel);border:2px solid var(--line);border-radius:20px;padding:16px}
+.full{grid-column:1/-1}
+.tri{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:6px 0 10px}
+.tri div{background:var(--bg);border-radius:12px;padding:10px 8px;text-align:center;font-size:14px;line-height:1.35}
+.tri b{display:block;font-size:26px}
+.eqb{background:var(--bg);border-radius:14px;padding:12px;margin-bottom:10px;line-height:2.1}
+table{border-collapse:collapse;width:100%;font-size:15px}
+td,th{padding:6px 8px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-family:Fredoka,system-ui,sans-serif}
+details{background:var(--panel);border:2px solid var(--line);border-radius:16px;padding:12px 16px;margin-top:18px}
+summary{cursor:pointer;font:600 19px Fredoka,system-ui,sans-serif}
+ol{padding-left:22px}li{margin-bottom:6px}
+.note{font-size:14px;color:var(--soft);margin-top:30px}
+.lbl{font:700 12.5px Nunito,system-ui,sans-serif;fill:var(--ink)}
+.big{font:600 15px Fredoka,system-ui,sans-serif}
+.b{animation:rise var(--t,3s) linear var(--d,0s) infinite;opacity:0;transform-box:fill-box;transform-origin:center}
+@keyframes rise{0%{transform:translateY(0) scale(.6);opacity:0}15%{opacity:.95}100%{transform:translateY(-90px) scale(1.15);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation-duration:.01ms!important;animation-iteration-count:1!important;animation-fill-mode:forwards!important}}
+@media (max-width:760px){.stage,.board{grid-template-columns:1fr}.tri{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>How factories make ethanol</h1>
+<p style="margin:8px 0 0;font:600 18px Fredoka,system-ui,sans-serif;color:var(--eth)">Made by Aasia Khawar</p>
+<p class="lead">Two industrial routes, one product. Follow each plant stage by stage, then see why engineers choose one over the other. Made for Edexcel International GCSE Chemistry (4CH1), organic chemistry: alcohols.</p>
+<p style="margin-top:18px;font-weight:700"><span class="chip g">Route A: glucose + yeast</span> and <span class="chip l">Route B: ethene + steam</span> both make <span class="chip e">C₂H₅OH</span></p>
+
+<div class="routes" role="tablist"><button id="rA" class="on">Route A: fermentation (batch)</button><button id="rB">Route B: hydration of ethene (continuous)</button></div>
+<section class="stage" aria-label="Plant walkthrough">
+<div id="scene"></div>
+<div class="cap" aria-live="polite">
+<h3 id="t"></h3>
+<p><span class="k">On the plant: </span><span id="do"></span></p>
+<p class="w"><span class="k">The chemistry: </span><span id="why"></span></p>
+<div class="ctl"><button id="prev">Back</button><button id="next">Next stage</button><button id="play">Play all</button></div>
+<div class="dots" id="dots"></div>
+</div>
+</section>
+
+<h2>The chemistry storyboard</h2>
+<p class="lead">Honey for glucose, violet for ethanol, blue for steam and CO₂, green for ethene, red for heat. Same colours as the lab practical.</p>
+<div class="board">
+
+<div class="card full">
+<h3>Panel 1: the two reactions</h3>
+<div class="eqb"><span class="chip g">C₆H₁₂O₆(aq)</span> →(yeast enzymes, 25–35 °C, no air) <span class="chip e">2C₂H₅OH(aq)</span> + <span class="chip c">2CO₂(g)</span><br>
+<span class="chip l">C₂H₄(g)</span> + <span class="chip c">H₂O(g)</span> ⇌(H₃PO₄ catalyst, 300 °C, 60–70 atm) <span class="chip e">C₂H₅OH(g)</span></div>
+<p>The second reaction is <b>reversible</b>, so some ethene is left over. The first makes a by-product, carbon dioxide. That difference matters for atom economy: fermentation gives (2 × 46) ÷ 180 × 100 = <b>51%</b>, while hydration gives 46 ÷ (28 + 18) × 100 = <b>100%</b>, because everything ends up as ethanol.</p>
+</div>
+
+<div class="card">
+<div class="tri"><div><b>🌡️</b>300 °C<br>The reaction gives out heat, so a lower temperature would give more ethanol, but too slowly. 300 °C is a compromise.</div><div><b>🗜️</b>60–70 atm<br>2 gas molecules become 1, so high pressure pushes towards ethanol. More pressure costs more, so it’s a compromise.</div><div><b>⚗️</b>Catalyst<br>Phosphoric acid on silica speeds up the reaction without changing the yield or being used up.</div></div>
+<h3>Panel 2: why those conditions (Route B)</h3>
+<p>Only about 5% of the ethene reacts each time it passes through the reactor. Cooling the gases turns the ethanol into a liquid, and the unreacted ethene is <b>recycled</b> round again. Little is wasted.</p>
+</div>
+
+<div class="card">
+<div class="tri"><div><b>🌽</b>Raw material<br>Sugar cane, sugar beet, or starch from maize, which enzymes turn into glucose</div><div><b>🦠</b>Yeast<br>Its enzymes catalyse the reaction. It dies if the mixture is too hot or too alcoholic</div><div><b>🍺</b>Max about 15%<br>Yeast is poisoned above this, so the product is dilute</div></div>
+<h3>Panel 3: what Route A needs</h3>
+<p>Large steel fermenters are cooled to stay at 25–35 °C and kept free of air. Oxygen would oxidise the ethanol to ethanoic acid. Fractional distillation then separates ethanol (boils at about 78 °C) from water (100 °C). The CO₂ can be collected and sold, and spent yeast can be used as animal feed.</p>
+</div>
+
+<div class="card full">
+<h3>Panel 4: batch against continuous</h3>
+<table><tr><th></th><th>Route A: fermentation</th><th>Route B: hydration</th></tr>
+<tr><td>Type of process</td><td>Batch: fill, wait, empty, clean, repeat</td><td>Continuous: raw materials flow in, product flows out, non-stop</td></tr>
+<tr><td>Rate</td><td>Slow (days)</td><td>Fast</td></tr>
+<tr><td>Raw material</td><td>Renewable crops</td><td>Ethene from crude oil, which is non-renewable</td></tr>
+<tr><td>Product</td><td>Dilute and impure, so needs distillation</td><td>Purer ethanol</td></tr>
+<tr><td>Energy and equipment</td><td>Low temperature, normal pressure</td><td>High temperature and pressure, strong and expensive vessels</td></tr>
+<tr><td>Labour and running</td><td>Stop-start, more labour per tonne</td><td>Automated, steady output</td></tr></table>
+</div>
+
+<div class="card">
+<h3>Panel 5: a decision, like an exam question</h3>
+<p><b>A country has huge sugar cane farms but no oil.</b> Fermentation fits: the sugar is local and renewable, it needs no crude oil, and it runs at low temperature and pressure. The slower rate and the distillation step are the trade-offs.</p>
+<p><b>A country with oil refineries and a big chemical industry</b> would likely choose hydration: ethene is on hand, it is fast and continuous, and it gives a purer product.</p>
+</div>
+
+<div class="card">
+<h3>Panel 6: where ethanol ends up</h3>
+<div class="tri"><div><b>⛽</b>Fuel<br>blended with petrol</div><div><b>🧴</b>Solvent<br>perfumes, paints, antiseptics</div><div><b>🍷</b>Drinks<br>from fermentation</div></div>
+<p>Crops absorb CO₂ as they grow, so bioethanol can lower net emissions, though farmland used for fuel can’t grow food.</p>
+</div>
+</div>
+
+<details><summary>Check yourself: exam-style questions</summary>
+<ol>
+<li>Name the catalyst and give the conditions for making ethanol from ethene. <i>Phosphoric acid; about 300 °C; 60–70 atm.</i></li>
+<li>Why must air be kept out of a fermenter? <i>Oxygen would oxidise the ethanol to ethanoic acid.</i></li>
+<li>Why is unreacted ethene recycled? <i>Only about 5% reacts per pass; recycling raises the overall yield and saves raw material.</i></li>
+<li>Calculate the atom economy of fermentation. <i>(2 × 46) ÷ 180 × 100 = 51%.</i></li>
+<li>Give two advantages of fermentation over hydration. <i>Renewable raw material; low temperature and pressure; no crude oil needed.</i></li>
+<li>Give two disadvantages of fermentation. <i>Slow batch process; impure, dilute product that needs distilling.</i></li>
+</ol></details>
+<p class="note">Made by Aasia Khawar. Figures follow the Edexcel International GCSE Chemistry specification (4CH1, 4.32–4.33). Real plants vary a little in exact pressures, temperatures and yields.</p>
+</div>
+
+<script>
+const svg=(l,b)=>`<svg viewBox="0 0 420 260" role="img" aria-label="${l}">${b}</svg>`;
+const T=(x,y,w,h,c)=>`<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="10" fill="${c}" stroke="var(--ink)" stroke-width="3.5"/>`;
+const L=(x,y,t,c)=>`<text class="lbl" x="${x}" y="${y}"${c?` fill="${c}"`:''}>${t}</text>`;
+const pipe=(d,col,n=4,dur=3)=>`<path d="${d}" fill="none" stroke="var(--bench)" stroke-width="7" stroke-linecap="round" stroke-linejoin="round"/>`+Array.from({length:n},(_,k)=>`<circle r="4.5" fill="${col}"><animateMotion dur="${dur}s" begin="${(k*dur/n).toFixed(2)}s" repeatCount="indefinite" path="${d}"/></circle>`).join('');
+const bub=(x0,w,y0,n)=>Array.from({length:n},(_,k)=>`<circle class="b" cx="${x0+(k*37)%w}" cy="${y0-(k%3)*6}" r="${3+k%4}" fill="var(--co2)" style="--d:${((k*.37)%2.6).toFixed(2)}s;--t:${2+(k%4)*.5}s"/>`).join('');
+const gnd='<rect x="10" y="238" width="400" height="8" rx="4" fill="var(--bench)"/>';
+const A=[
+{t:'Prepare the sugar',d:'Crops such as sugar cane, sugar beet or maize arrive at the mill. Starch crops are cooked and treated with enzymes.',w:'Enzymes break starch (a long chain of glucose units) into glucose, C₆H₁₂O₆, dissolved in water.',
+ s:()=>svg('Crops going through a mill and enzyme tank to make glucose solution',gnd+`<text x="14" y="95" font-size="42">🌽</text><text x="14" y="150" font-size="42">🌾</text>`+pipe('M70 120L120 120','var(--honey)',3,2)+T(120,70,90,100,'var(--bench)')+L(128,125,'mill +')+L(128,141,'enzymes')+pipe('M210 120L270 120','var(--honey)',3,2)+T(270,70,120,110,'var(--honey)')+L(282,130,'glucose','#2b1c00')+L(282,146,'solution','#2b1c00')+L(30,200,'sugar cane, sugar beet, maize')+L(30,218,'starch → glucose by enzymes'))},
+{t:'Ferment in a big tank',d:'Glucose solution and yeast go into a huge steel fermenter, cooled to 25–35 °C and sealed from air. When the batch is done, the tank is emptied and cleaned.',w:'Enzymes in yeast turn glucose into ethanol and carbon dioxide. The CO₂ escapes through the top pipe.',
+ s:()=>svg('Fermenter with yeast, bubbles, a cooling jacket and a CO2 outlet',gnd+`<rect x="102" y="44" width="186" height="168" rx="14" fill="none" stroke="var(--co2)" stroke-width="3" stroke-dasharray="7 5"/>`+T(110,52,170,152,'var(--honey)')+bub(125,140,196,14)+Array.from({length:9},(_,k)=>`<circle cx="${130+(k*29)%140}" cy="${100+(k*37)%80}" r="4" fill="var(--yeast)"/>`).join('')+pipe('M195 52L195 24L330 24','var(--co2)',4,3)+pipe('M20 185L110 185','var(--honey)',3,2.5)+pipe('M280 185L405 185','var(--eth)',3,2.5)+L(300,20,'CO₂ out','var(--co2)')+L(14,170,'glucose in')+L(300,206,'to distillation')+L(104,232,'cooling jacket: 25–35 °C, no air','var(--co2)'))},
+{t:'Separate the ethanol',d:'The liquid is filtered, then fed into a fractional distillation column. Ethanol vapour rises and is collected at the top; water and yeast leave at the bottom.',w:'Ethanol boils at about 78 °C, water at 100 °C. A fermenter gives at most ~15% ethanol, so distillation concentrates it.',
+ s:()=>svg('Fractional distillation column separating ethanol from water',gnd+T(150,14,70,212,'var(--bg)')+[50,85,120,155,190].map(y=>`<line x1="150" y1="${y}" x2="220" y2="${y}" stroke="var(--bench)" stroke-width="3"/>`).join('')+pipe('M30 170L150 170','var(--yeast)',3,2.5)+pipe('M185 215L185 30','var(--eth)',5,3.5)+pipe('M220 40L320 40','var(--eth)',3,2)+T(320,18,86,70,'var(--eth)')+L(334,58,'ethanol','#fff')+pipe('M185 226L185 232L300 232','var(--yeast)',2,2)+L(10,150,'fermented mix in')+L(232,110,'top: ~78 °C')+L(232,200,'bottom: ~100 °C')+L(310,226,'water + yeast','var(--yeast)'))}
+];
+const B=[
+{t:'Make ethene from crude oil',d:'Oil fractions are heated and passed over a catalyst in a cracker, which breaks big hydrocarbon molecules into smaller ones, including ethene.',w:'Cracking makes ethene, C₂H₄, a reactive alkene with a C=C double bond. This is where the “non-renewable” label comes from.',
+ s:()=>svg('Crude oil going into a cracker, producing ethene',gnd+`<text x="14" y="150" font-size="52">🛢️</text>`+pipe('M80 130L130 130','var(--ink)',3,2)+T(130,60,100,150,'var(--hot)')+L(142,125,'cracker','#fff')+L(142,141,'hot + catalyst','#fff')+pipe('M230 130L290 130','var(--lime)',3,2)+T(290,90,110,80,'var(--lime)')+L(308,135,'ethene C₂H₄','#06241f')+L(14,200,'long chains → short chains'))},
+{t:'Mix with steam, squeeze and heat',d:'Ethene and steam are mixed, compressed to 60–70 atmospheres and heated to about 300 °C.',w:'High pressure favours the side with fewer gas molecules (2 → 1). Heat makes the particles move fast enough to react.',
+ s:()=>svg('Ethene and steam joining, being compressed and heated',gnd+T(14,40,86,60,'var(--lime)')+L(24,75,'ethene','#06241f')+T(14,140,86,60,'var(--co2)')+L(24,175,'steam','#00243a')+pipe('M100 70L175 70L175 130','var(--lime)',3,2.5)+pipe('M100 170L175 170L175 130','var(--co2)',3,2.5)+`<circle cx="205" cy="130" r="32" fill="var(--bench)" stroke="var(--ink)" stroke-width="3.5"/>`+L(184,128,'pump')+L(172,176,'60–70 atm')+pipe('M237 130L280 130','var(--lime)',3,2)+T(280,95,100,70,'var(--hot)')+L(292,127,'heater','#fff')+L(292,143,'≈ 300 °C','#fff')+pipe('M380 130L408 130','var(--lime)',2,1.5))},
+{t:'React over the catalyst',d:'The hot gas mixture flows through a reactor packed with pellets of silica coated in phosphoric acid.',w:'CH₂=CH₂ + H₂O ⇌ C₂H₅OH. The catalyst speeds the reaction up. Only about 5% of the ethene reacts in one pass.',
+ s:()=>svg('Reactor packed with catalyst pellets, ethene and steam in, ethanol out',gnd+T(130,34,150,190,'var(--bg)')+Array.from({length:20},(_,k)=>`<circle cx="${156+(k%5)*26}" cy="${70+Math.floor(k/5)*34}" r="9" fill="var(--bench)" stroke="var(--ink)" stroke-width="2"/>`).join('')+pipe('M205 8L205 120','var(--lime)',4,2.5)+pipe('M215 8L215 120','var(--co2)',4,2.5)+pipe('M210 120L210 245','var(--eth)',5,2.5)+L(290,80,'H₃PO₄ on silica')+L(290,96,'pellets (catalyst)')+L(290,150,'≈ 300 °C')+L(290,166,'60–70 atm')+L(14,30,'ethene + steam in','var(--lime)')+L(14,46,'(top)','var(--lime)')+L(300,224,'ethanol + leftover ethene','var(--eth)'))},
+{t:'Cool, separate and recycle',d:'The gas leaving the reactor is cooled. Ethanol and water condense to a liquid and are drawn off; unreacted ethene is pumped back to the start.',w:'Recycling a reversible reaction’s leftovers pushes the overall conversion to about 95%, and ethanol is then purified by fractional distillation.',
+ s:()=>svg('Condenser and separator with an ethene recycle loop',gnd+T(30,100,70,70,'var(--co2)')+L(40,138,'cooler','#00243a')+pipe('M100 135L160 135','var(--eth)',3,2)+T(160,60,90,166,'var(--bg)')+`<rect x="162" y="170" width="86" height="54" rx="8" fill="var(--eth)" opacity=".6"/>`+pipe('M205 60L205 24L20 24L20 100','var(--lime)',6,4)+pipe('M250 200L405 200','var(--eth)',3,2)+L(30,60,'unreacted ethene recycled','var(--lime)')+L(262,184,'liquid ethanol')+L(262,220,'to distillation')+L(30,200,'cooled by water'))}
+];
+const R={A,B};let rt='A',i=0,timer=null;const $=id=>document.getElementById(id);
+function dots(){$('dots').innerHTML=R[rt].map((_,k)=>`<button aria-label="Stage ${k+1}" data-k="${k}">${k+1}</button>`).join('')}
+function show(n){const S=R[rt];i=(n+S.length)%S.length;const s=S[i];$('scene').innerHTML=s.s();$('t').textContent=s.t;$('do').textContent=s.d;$('why').textContent=s.w;document.querySelectorAll('#dots button').forEach((b,k)=>b.classList.toggle('on',k===i))}
+function stop(){clearInterval(timer);timer=null;$('play').textContent='Play all'}
+function route(r){stop();rt=r;$('rA').classList.toggle('on',r==='A');$('rB').classList.toggle('on',r==='B');dots();show(0)}
+$('rA').onclick=()=>route('A');$('rB').onclick=()=>route('B');
+$('prev').onclick=()=>{stop();show(i-1)};$('next').onclick=()=>{stop();show(i+1)};
+$('dots').onclick=e=>{const k=e.target.dataset.k;if(k!==undefined){stop();show(+k)}};
+$('play').onclick=()=>{if(timer){stop();return}$('play').textContent='Pause';show(0);timer=setInterval(()=>{if(i===R[rt].length-1)stop();else show(i+1)},6500)};
+dots();show(0);
+</script>
+</body>
+</html>
